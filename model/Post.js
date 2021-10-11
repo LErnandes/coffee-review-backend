@@ -18,15 +18,15 @@ const PostsSchema = mongoose.Schema({
     required: true,
   },
   rating: {
-    type: Int16Array,
+    type: Number,
     required: true,
   },
   ratingCount: {
-    type: Int16Array,
+    type: Number,
     required: true,
   },
   priceRating: {
-    type: Int16Array,
+    type: Number,
     required: true,
   },
   createdAt: {

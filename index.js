@@ -5,7 +5,6 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./swagger_output.json");
 
 const user = require("./routes/user");
-const service = require("./routes/service");
 const posts = require("./routes/posts");
 const InitiateMongoServer = require("./config/db");
 

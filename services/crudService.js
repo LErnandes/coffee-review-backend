@@ -1,6 +1,3 @@
-const validationService = require("./validationService");
-const User = require("../model/User");
-
 async function getter(res, data, model, populates=[]) {
   try {
     const response = await model.find(data).populate(populates);
@@ -12,14 +9,7 @@ async function getter(res, data, model, populates=[]) {
   }
 }
 
-async function creater(req, res, data, model, roles) {
-  const user = await User.findById(req.user.id);
-  validationService.rolecheck(
-    roles,
-    user.role,
-    res
-  );
-
+async function creater(req, res, data, model) {
   try {
     var response = new model(data);
 
@@ -32,14 +22,7 @@ async function creater(req, res, data, model, roles) {
   }
 }
 
-async function updater(req, res, data, model, roles) {
-  const user = await User.findById(req.user.id);
-  validationService.rolecheck(
-    roles,
-    user.role,
-    res
-  );
-
+async function updater(req, res, data, model) {
   try {
     const changeres = await model.updateOne({ _id: req.params.id }, { $set: data });
 
@@ -50,14 +33,7 @@ async function updater(req, res, data, model, roles) {
   }
 }
 
-async function deleter(req, res, model, roles) {
-  const user = await User.findById(req.user.id);
-  validationService.rolecheck(
-    roles,
-    user.role,
-    res
-  );
-
+async function deleter(req, res, model) {
   try {
     const response = await model.findById(req.params.id);
 

@@ -1,11 +1,14 @@
-const crudService = require("../services/crudService");
 const validationService = require("../services/validationService");
 const CacheService = require("../services/CacheService");
+const crudService = require("../services/crudService");
 const Post = require("../model/Post");
+const User = require("../model/User");
 
 
 async function createPosts(req, res) {
   try {
+    const user = await User.findById(req.user.id);
+    if (user == null) res.send({ message: "Não tem permissão para criar o post" });
     validationService.validation(req, res);
 
     const { name } = req.body;
@@ -14,14 +17,16 @@ async function createPosts(req, res) {
       name,
     });
 
-    await crudService.creater(req, res, data, Post, roles);
+    await crudService.creater(req, res, data, Post);
   } catch (error) {
-    res.send({ message: "Erro ao deletar o post" });
+    res.send({ message: "Erro ao criar o post" });
   }
 }
 
 async function updatePosts(req, res) {
   try {
+    const user = await User.findById(req.user.id);
+    if (user == null) res.send({ message: "Não tem permissão para atualizar o post" });
     validationService.validation(req, res);
 
     const { name } = req.body;
@@ -30,15 +35,17 @@ async function updatePosts(req, res) {
       name,
     });
 
-    await crudService.updater(req, res, data, Post, roles);
+    await crudService.updater(req, res, data, Post);
   } catch (error) {
-    res.send({ message: "Erro ao deletar o post" });
+    res.send({ message: "Erro ao atualizar o post" });
   }
 }
 
 async function deletePosts(req, res) {
   try {
-    await crudService.deleter(req, res, Post, roles);
+    const user = await User.findById(req.user.id);
+    if (user == null) res.send({ message: "Não tem permissão para deletar o post" });
+    await crudService.deleter(req, res, Post);
   } catch (error) {
     res.send({ message: "Erro ao deletar o post" });
   }
@@ -47,32 +54,32 @@ async function deletePosts(req, res) {
 async function getPosts(req, res) {
   try {
     const cachedPost = CacheService.get("POSTS");
-    const Post;
+    const postData = undefined;
 
     if (cachedPost) {
       return cachedPost;
     } else {
-      Post = await Post.find();
-      CacheService.set("POSTS", Post, 86400);
+      postData = await Post.find();
+      CacheService.set("POSTS", postData, 86400);
     }
 
     res.json(Post);
   } catch (error) {
-    res.send({ message: "Erro ao encontrar o post" });
+    res.send({ message: "Erro ao encontrar os posts" });
   }
 }
 
 async function getPostsById(req, res) {
   try {
     const { id } = req.params;
-    const Post;
+    const postData = undefined;
     const cachedPost = CacheService.get(`POST_${id}`);
 
     if (cachedPost) {
       return cachedPost;
     } else {
-      Post = await Post.findById(id);
-      CacheService.set(`POST_${id}`, Post, 86400);
+      postData = await Post.findById(id);
+      CacheService.set(`POST_${id}`, postData, 86400);
     }
 
     res.json(Post);

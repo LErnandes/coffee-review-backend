@@ -14,10 +14,4 @@ function optionalfields(fields) {
   return fields
 }
 
-function rolecheck(roles, role, res) {
-  if (!roles.includes(role)) {
-    res.status(401).send("Você não tem permissão para fazer isso");
-  }
-}
-
-module.exports = { validation, optionalfields, rolecheck };
+module.exports = { validation, optionalfields };
