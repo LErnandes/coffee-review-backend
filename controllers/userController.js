@@ -20,9 +20,10 @@ function maketoken(payload, res, user = {}) {
   );
 }
 
+
 async function signup(req, res) {
   validationService.validation(req, res);
-  const { username, email, password, role, consid, labid } = req.body;
+  const { email, password } = req.body;
 
   try {
     let user = await User.findOne({
@@ -48,6 +49,7 @@ async function signup(req, res) {
     res.status(500).send("Erro ao criar a conta");
   }
 }
+
 
 async function login(req, res) {
   validationService.validation(req, res);

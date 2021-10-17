@@ -21,10 +21,6 @@ const PostsSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  ratingCount: {
-    type: Number,
-    required: true,
-  },
   priceRating: {
     type: Number,
     required: true,
@@ -35,4 +31,4 @@ const PostsSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("PostType", PostsSchema);
+module.exports = mongoose.model("Post", PostsSchema);
