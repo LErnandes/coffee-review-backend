@@ -20,6 +20,35 @@ function maketoken(payload, res, user = {}) {
   );
 }
 
+async function signup(req, res) {
+  validationService.validation(req, res);
+  const { username, email, password, role, consid, labid } = req.body;
+
+  try {
+    let user = await User.findOne({
+      email,
+    });
+
+    if (user) {
+      return res.status(400).json({
+        message: "O usuário já existe",
+      });
+    }
+
+    user = new User({ email, password });
+
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+
+    await user.save();
+
+    maketoken({ user: { id: user.id } }, res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erro ao criar a conta");
+  }
+}
+
 async function login(req, res) {
   validationService.validation(req, res);
   const { email, password } = req.body;
@@ -50,4 +79,4 @@ async function login(req, res) {
   }
 }
 
-module.exports = { login };
+module.exports = { login, signup };
