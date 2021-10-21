@@ -40,7 +40,7 @@ async function deleter(req, res, model) {
     await response.remove();
 
     return res.send();
-  } catch {
+  } catch (err) {
     res.status(500).json({
       message: "Erro ao deletar",
     });

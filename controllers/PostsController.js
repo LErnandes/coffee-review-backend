@@ -1,5 +1,5 @@
 const validationService = require("../services/validationService");
-const CacheService = require("../services/CacheService");
+const CacheService = require("../services/cacheService");
 const crudService = require("../services/crudService");
 const Post = require("../model/Post");
 const User = require("../model/User");
