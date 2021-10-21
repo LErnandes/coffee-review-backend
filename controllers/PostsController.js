@@ -46,16 +46,9 @@ async function deletePosts(req, res) {
 
 async function getPosts(req, res) {
   try {
-    const cachedPost = CacheService.get("POSTS");
-    let postData = undefined;
-
-    if (cachedPost) {
-      return res.json(cachedPost);
-    } else {
-      postData = await Post.find();
-      CacheService.set("POSTS", postData, 86400);
-      return res.json(postData);
-    }
+    let postData = await Post.find();
+    
+    return res.json(postData);
   } catch (error) {
     console.error(error);
     res.send({ message: "Erro ao encontrar os posts" });
