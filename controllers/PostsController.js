@@ -25,7 +25,6 @@ async function updatePosts(req, res) {
     validationService.validation(req, res);
 
     await crudService.updater(req, res, req.body, Post);
-    res.json(req.body);
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: "Erro ao atualizar o post" });
